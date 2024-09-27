@@ -1,5 +1,29 @@
 <script lang="ts" setup>
-const { savedHomeservers, setCurrentHomeserver } = useMatrix();
+import type { SavedHomeserver } from '~/types/Homeserver';
+
+const {
+  client,
+  homeserver,
+  savedHomeservers,
+  initalizeClient,
+  setCurrentHomeserver,
+} = useMatrix();
+
+const connectionError = ref<string | null>();
+const connecting = ref(false);
+
+async function select(homeserver: SavedHomeserver) {
+  setCurrentHomeserver(homeserver.url);
+
+  connecting.value = true;
+
+  try {
+    await initalizeClient();
+  } catch (e) {
+    connectionError.value = (e as Error).message;
+    connecting.value = false;
+  }
+}
 </script>
 
 <template>
@@ -13,10 +37,16 @@ const { savedHomeservers, setCurrentHomeserver } = useMatrix();
     </p>
   </div>
 
-  <div class="flex flex-col gap-2">
+  <Alert v-if="connectionError" variant="error">
+    <template #title>Failed Connecting to the Homeserver</template>
+    {{ connectionError }}
+  </Alert>
+
+  <div v-if="!homeserver" class="flex flex-col gap-2">
     <Button
-      v-for="(homeserver, i) in savedHomeservers"
-      class="group !w-full text-left">
+      v-for="homeserver in savedHomeservers"
+      class="group !w-full text-left"
+      @click="select(homeserver)">
       <div class="flex w-full items-center">
         <div class="flex flex-col">
           <span class="inline-flex items-center gap-1">
@@ -48,5 +78,13 @@ const { savedHomeservers, setCurrentHomeserver } = useMatrix();
       class="!w-full border-2 border-dashed border-theme-700">
       Add Homeserver
     </Button>
+  </div>
+  <div
+    v-else-if="connecting"
+    class="flex flex-col items-center justify-center text-center">
+    <Spinner class="mb-4 h-7 w-7" />
+
+    <h2 class="font-medium">Connecting to the Homeserver...</h2>
+    <p class="text-theme-300">This shouldn't take too long.</p>
   </div>
 </template>
