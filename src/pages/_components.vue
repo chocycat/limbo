@@ -69,5 +69,26 @@
         </template>
       </Card>
     </div>
+
+    <h2 class="text-lg font-bold">Alerts</h2>
+
+    <div class="flex flex-col gap-4">
+      <Alert variant="theme">
+        <template #title>Simple Alert</template>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </Alert>
+      <Alert variant="accent">
+        <template #title>Accent Alert</template>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </Alert>
+      <Alert variant="warning">
+        <template #title>Warning Alert</template>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </Alert>
+      <Alert variant="error">
+        <template #title>Error Alert</template>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      </Alert>
+    </div>
   </div>
 </template>
