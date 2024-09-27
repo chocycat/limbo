@@ -8,17 +8,17 @@ export function usePlatform() {
 
   const capacitor = window.CapacitorBridge;
 
-  function onWeb(fn: () => void) {
-    if (platform === 'web') fn();
+  async function onWeb(fn: () => void | Promise<void>) {
+    if (platform === 'web') await fn();
   }
 
-  function onDesktop(fn: () => void) {
+  async function onDesktop(fn: () => void | Promise<void>) {
     // TODO: add preload bridge
-    if (platform === 'desktop') fn();
+    if (platform === 'desktop') await fn();
   }
 
-  function onMobile(fn: (bridge: CapacitorBridge) => void) {
-    if (platform === 'mobile' && capacitor) fn(capacitor);
+  async function onMobile(fn: (bridge: CapacitorBridge) => void | Promise<void>) {
+    if (platform === 'mobile' && capacitor) await fn(capacitor);
   }
 
   return { platform, capacitor, onWeb, onDesktop, onMobile };
