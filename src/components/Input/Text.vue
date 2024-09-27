@@ -36,7 +36,7 @@ defineOptions({
 <style lang="scss" scoped>
 @import 'Input';
 
-.input-text {
+.input {
   &[data-has-icon='true'] {
     input {
       @apply indent-[30px];
