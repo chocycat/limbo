@@ -30,17 +30,21 @@ export default <Partial<Config>>{
       colors: {
         // CSS variables for the accent and theme
         accent: {
-          '50': 'var(--accent-50)',
-          '100': 'var(--accent-100)',
-          '200': 'var(--accent-200)',
-          '300': 'var(--accent-300)',
           '400': 'var(--accent-400)',
           '500': 'var(--accent-500)',
           '600': 'var(--accent-600)',
-          '700': 'var(--accent-700)',
-          '800': 'var(--accent-800)',
-          '900': 'var(--accent-900)',
-          '950': 'var(--accent-950)',
+        },
+
+        error: {
+          '400': 'var(--error-400)',
+          '500': 'var(--error-500)',
+          '600': 'var(--error-600)',
+        },
+
+        warning: {
+          '400': 'var(--warning-400)',
+          '500': 'var(--warning-500)',
+          '600': 'var(--warning-600)',
         },
 
         theme: {
@@ -59,17 +63,21 @@ export default <Partial<Config>>{
 
         // Accents
         aether: {
-          '50': '#f8f6fc',
-          '100': '#f1eff8',
-          '200': '#e6e1f3',
-          '300': '#d3c8ea',
-          '400': '#b099d6',
-          '500': '#a485cd',
-          '600': '#936abd',
-          '700': '#8157aa',
-          '800': '#6d498e',
-          '900': '#5a3d75',
-          '950': '#3a274e',
+          '400': '#C7B6E2',
+          '500': '#B099D6',
+          '600': '#9171C6',
+        },
+
+        ember: {
+          '400': '#EDD2D2',
+          '500': '#E2B5B5',
+          '600': '#D69898',
+        },
+
+        beacon: {
+          '400': '#E9E7AF',
+          '500': '#E0DE8F',
+          '600': '#D4D163',
         },
 
         // Common
@@ -86,6 +94,16 @@ export default <Partial<Config>>{
           '900': '#353545',
           '950': '#16161d',
         },
+      },
+      transitionTimingFunction: {
+        standard: 'cubic-bezier(0.2, 0.1, 0, 1.0)',
+        'standard-accelerate': 'cubic-bezier(0.3, 0, 1, 1)',
+        'standard-decelerate': 'cubic-bezier(0, 0, 0, 1)',
+        'emphasized-accelerate': 'cubic-bezier(0.3, 0.0, 0.8, 0.15)',
+        'emphasized-decelerate': 'cubic-bezier(0.05, 0.7, 0.1, 1.0)',
+      },
+      transitionDuration: {
+        DEFAULT: '200ms',
       },
     },
   },

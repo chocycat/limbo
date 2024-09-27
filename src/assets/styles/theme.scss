@@ -1,15 +1,13 @@
 :root[data-theme='onyx'] {
-  --accent-50: theme('colors.aether.50');
-  --accent-100: theme('colors.aether.100');
-  --accent-200: theme('colors.aether.200');
-  --accent-300: theme('colors.aether.300');
   --accent-400: theme('colors.aether.400');
   --accent-500: theme('colors.aether.500');
   --accent-600: theme('colors.aether.600');
-  --accent-700: theme('colors.aether.700');
-  --accent-800: theme('colors.aether.800');
-  --accent-900: theme('colors.aether.900');
-  --accent-950: theme('colors.aether.950');
+  --error-400: theme('colors.ember.400');
+  --error-500: theme('colors.ember.500');
+  --error-600: theme('colors.ember.600');
+  --warning-400: theme('colors.beacon.400');
+  --warning-500: theme('colors.beacon.500');
+  --warning-600: theme('colors.beacon.600');
   --theme-50: theme('colors.onyx.50');
   --theme-100: theme('colors.onyx.100');
   --theme-200: theme('colors.onyx.200');
