@@ -22,6 +22,8 @@
     "@nuxt/eslint": "^0.5.7",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.4",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
     "vue": "latest",
