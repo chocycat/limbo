@@ -26,6 +26,7 @@
     "@vueuse/nuxt": "^11.1.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
+    "tw-colors": "^3.3.2",
     "vue": "latest",
     "vue-router": "latest"
   },

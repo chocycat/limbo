@@ -35,7 +35,7 @@ const config = defineNuxtConfig({
     ],
   ],
 
-  css: ['~/assets/styles/style.scss', '~/assets/styles/theme.scss'],
+  css: ['~/assets/styles/style.scss'],
 
   vite: {
     css: {
