@@ -1,13 +1,22 @@
 <script lang="ts" setup>
 const emit = defineEmits<{ (e: 'click', event: MouseEvent): void }>();
 
-withDefaults(
+const { text, icon } = withDefaults(
   defineProps<{
     variant?: 'transparent' | 'theme' | 'accent' | 'error' | 'warning';
     size?: 'small' | 'base' | 'large';
     text?: string;
+    icon?: string | { leading?: string; trailing?: string };
   }>(),
   { variant: 'theme', size: 'base' }
+);
+
+const simpleMode = computed(() => !!icon || !!text);
+const leadingIcon = computed(() =>
+  typeof icon === 'string' ? icon : icon?.leading
+);
+const trailingIcon = computed(() =>
+  typeof icon === 'object' ? icon?.trailing : null
 );
 </script>
 
@@ -16,14 +25,18 @@ withDefaults(
     :data-size="size"
     :data-variant="variant"
     @click="emit('click', $event)">
-    <span v-if="text">{{ text }}</span>
+    <template v-if="simpleMode">
+      <Icon v-if="leadingIcon" class="-ml-0.5" :icon="leadingIcon" />
+      <span v-if="text">{{ text }}</span>
+      <Icon v-if="trailingIcon" class="-mr-0.5" :icon="trailingIcon" />
+    </template>
     <slot v-else />
   </button>
 </template>
 
 <style lang="scss" scoped>
 button {
-  @apply ease-standard flex w-fit cursor-pointer items-center gap-2 rounded-md font-semibold transition;
+  @apply ease-standard flex w-fit cursor-pointer items-center gap-1.5 rounded-md font-semibold transition;
 
   &:active {
     @apply scale-95;
