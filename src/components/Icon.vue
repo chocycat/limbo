@@ -3,7 +3,7 @@ defineProps<{ icon: string }>();
 </script>
 
 <template>
-  <span>{{ icon }}</span>
+  <span class="icon">{{ icon }}</span>
 </template>
 
 <style lang="scss" scoped>
