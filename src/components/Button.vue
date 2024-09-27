@@ -36,7 +36,7 @@ const trailingIcon = computed(() =>
 
 <style lang="scss" scoped>
 button {
-  @apply ease-standard flex w-fit cursor-pointer items-center gap-1.5 rounded-lg font-semibold transition;
+  @apply flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-lg font-semibold transition ease-standard;
 
   &:active {
     @apply scale-95;
@@ -45,7 +45,7 @@ button {
   /// Variants
 
   &[data-variant='transparent'] {
-    @apply bg-transparent hover:bg-theme-700;
+    @apply bg-transparent text-theme-200 hover:bg-theme-700 hover:text-theme-50;
   }
 
   &[data-variant='theme'] {
@@ -57,11 +57,11 @@ button {
   }
 
   &[data-variant='error'] {
-    @apply bg-error-500 hover:bg-error-400 text-theme-950;
+    @apply bg-error-500 text-theme-950 hover:bg-error-400;
   }
 
   &[data-variant='warning'] {
-    @apply bg-warning-500 hover:bg-warning-400 text-theme-950;
+    @apply bg-warning-500 text-theme-950 hover:bg-warning-400;
   }
 
   /// Sizes
