@@ -36,7 +36,7 @@ const trailingIcon = computed(() =>
 
 <style lang="scss" scoped>
 button {
-  @apply ease-standard flex w-fit cursor-pointer items-center gap-1.5 rounded-md font-semibold transition;
+  @apply ease-standard flex w-fit cursor-pointer items-center gap-1.5 rounded-lg font-semibold transition;
 
   &:active {
     @apply scale-95;
@@ -45,7 +45,7 @@ button {
   /// Variants
 
   &[data-variant='transparent'] {
-    @apply bg-transparent hover:bg-theme-800;
+    @apply bg-transparent hover:bg-theme-700;
   }
 
   &[data-variant='theme'] {
