@@ -1,4 +1,6 @@
+import type { MatrixClient } from 'matrix-js-sdk';
 import type { SavedHomeserver } from '~/types/Homeserver';
+import * as sdk from 'matrix-js-sdk';
 
 export const useMatrix = defineStore('matrix', () => {
   const savedHomeservers = useLocalStorage<Array<SavedHomeserver>>(
@@ -12,7 +14,35 @@ export const useMatrix = defineStore('matrix', () => {
       },
     ]
   );
-  const homeserver = ref<SavedHomeserver>(savedHomeservers.value[0] || null);
+  const homeserver = ref<SavedHomeserver>();
+  const client = ref<MatrixClient>();
+
+  async function initalizeClient() {
+    if (!homeserver.value)
+      throw fail('Cannot create client if no homeserver is selected.');
+
+    try {
+      client.value = sdk.createClient({ baseUrl: homeserver.value.url });
+    } catch (e) {
+      throw fail((e as Error).message);
+    }
+
+    try {
+      const versions = await client.value.getVersions();
+      if (!versions || !versions.versions.length)
+        throw fail(
+          `Homeserver (${homeserver.value.name}) does not seem to be a valid Matrix homeserver.`
+        );
+    } catch (e) {
+      throw fail((e as Error).message);
+    }
+
+    function fail(message: string) {
+      homeserver.value = undefined;
+      client.value = undefined;
+      return new Error(message);
+    }
+  }
 
   function setCurrentHomeserver(url: string) {
     let _homeserver = savedHomeservers.value.find(
@@ -30,5 +60,11 @@ export const useMatrix = defineStore('matrix', () => {
     homeserver.value = _homeserver!;
   }
 
-  return { homeserver, savedHomeservers, setCurrentHomeserver };
+  return {
+    client,
+    homeserver,
+    savedHomeservers,
+    setCurrentHomeserver,
+    initalizeClient,
+  };
 });
