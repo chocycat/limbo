@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Hide native browser scrollbars
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+// Page layout
+body,
+#__nuxt,
+#app {
+  @apply flex min-h-screen w-full flex-1 flex-col;
+}
+
+main {
+  @apply flex flex-1 flex-col;
+}
+
+// Body base styles
+body {
+  @apply bg-theme-950 font-sans font-normal text-theme-50;
+
+  text-rendering: optimize-legibility;
+}

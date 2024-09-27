@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">limbo</string>
+    <string name="title_activity_main">limbo</string>
+    <string name="package_name">dev.chocycat.limbo</string>
+    <string name="custom_url_scheme">dev.chocycat.limbo</string>
+</resources>
