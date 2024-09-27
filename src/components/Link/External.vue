@@ -15,8 +15,6 @@ withDefaults(defineProps<{ to: string; label: string; newTab?: boolean }>(), {
 
 <style lang="scss" scoped>
 a {
-  @apply relative inline-flex items-start font-medium text-accent-500 underline underline-offset-2 transition ease-standard hover:text-accent-400;
-
   &:hover > .icon {
     @apply -translate-y-[1px] translate-x-[1px];
   }
