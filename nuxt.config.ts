@@ -36,6 +36,16 @@ const config = defineNuxtConfig({
 
   css: ['~/assets/styles/style.scss', '~/assets/styles/theme.scss'],
 
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern',
+        },
+      },
+    },
+  },
+
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
 });
