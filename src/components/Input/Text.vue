@@ -17,13 +17,16 @@ defineOptions({
 </script>
 
 <template>
-  <div class="input input-text" :data-has-icon="!!icon">
+  <div class="input relative flex flex-col gap-1.5" :data-has-icon="!!icon">
     <label v-if="label" :for="id" class="text-sm text-theme-300">{{
       label
     }}</label>
 
     <div class="relative flex items-center">
-      <Icon v-if="icon" :icon="icon" />
+      <Icon
+        v-if="icon"
+        class="absolute left-3.5 text-[20px] text-theme-300"
+        :icon="icon" />
 
       <input :id="id" v-model="model" v-bind="$attrs" />
     </div>
@@ -34,15 +37,9 @@ defineOptions({
 @import 'Input';
 
 .input-text {
-  @apply relative flex flex-col gap-1.5;
-
   &[data-has-icon='true'] {
     input {
       @apply indent-[30px];
-    }
-
-    .icon {
-      @apply absolute left-3.5 text-[20px] text-theme-300;
     }
   }
 }
