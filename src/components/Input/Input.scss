@@ -1,4 +1,4 @@
 .input input {
-  @apply ease-standard w-full rounded-lg bg-theme-800 px-4 py-2.5 font-normal outline-none outline-offset-[-2px] transition-all placeholder:text-theme-400;
-  @apply focus:bg-theme-700 focus:outline-2 focus:outline-offset-0 focus:outline-accent-500;
+  @apply w-full rounded-lg bg-theme-800 px-4 py-2.5 font-normal outline-none outline-offset-[-2px] transition-all ease-standard placeholder:text-theme-300;
+  @apply focus:bg-theme-600 focus:outline-2 focus:outline-offset-0 focus:outline-accent-500;
 }

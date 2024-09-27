@@ -42,10 +42,17 @@ button {
     @apply scale-95;
   }
 
+  &:disabled {
+    @apply scale-100 cursor-not-allowed opacity-75 shadow-inner;
+
+    background-color: theme('colors.theme-600') !important;
+    color: theme('colors.theme-50') !important;
+  }
+
   /// Variants
 
   &[data-variant='transparent'] {
-    @apply bg-transparent text-theme-200 hover:bg-theme-700 hover:text-theme-50;
+    @apply bg-transparent text-theme-200 hover:bg-theme-600 hover:text-theme-50;
   }
 
   &[data-variant='theme'] {
