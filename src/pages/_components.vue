@@ -29,5 +29,12 @@
       <Button text="Large Button" size="large" />
       <Button text="Accent Button" variant="accent" size="large" />
     </div>
+
+    <div class="flex w-[300px] flex-col gap-4">
+      <InputText id="1" />
+      <InputText id="2" placeholder="With Placeholder" />
+      <InputText id="3" label="With Label" />
+      <InputText id="4" label="With Icon" icon="language" />
+    </div>
   </div>
 </template>
