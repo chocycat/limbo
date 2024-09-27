@@ -15,6 +15,7 @@ const config = defineNuxtConfig({
 
   modules: [
     '@vueuse/nuxt',
+    '@pinia/nuxt',
     '@nuxtjs/stylelint-module',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
