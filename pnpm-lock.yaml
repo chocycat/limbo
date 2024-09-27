@@ -29,6 +29,9 @@ importers:
       '@vueuse/nuxt':
         specifier: ^11.1.0
         version: 11.1.0(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@18.19.53)(encoding@0.1.13)(eslint@9.11.1(jiti@2.0.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.5)(sass-embedded@1.79.3)(stylelint@16.9.0(typescript@5.6.2))(terser@5.34.0)(typescript@5.6.2)(vite@5.4.8(@types/node@18.19.53)(sass-embedded@1.79.3)(terser@5.34.0))(webpack-sources@3.2.3))(rollup@4.22.5)(vue@3.5.9(typescript@5.6.2))(webpack-sources@3.2.3)
+      gsap:
+        specifier: ^3.12.5
+        version: 3.12.5
       matrix-js-sdk:
         specifier: ^34.6.0
         version: 34.6.0
@@ -3092,6 +3095,9 @@ packages:
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+
+  gsap@3.12.5:
+    resolution: {integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==}
 
   gzip-size@7.0.0:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
@@ -9611,6 +9617,8 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
+
+  gsap@3.12.5: {}
 
   gzip-size@7.0.0:
     dependencies:
