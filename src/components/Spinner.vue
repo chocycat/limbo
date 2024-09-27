@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import gsap from 'gsap';
 
+defineProps<{ spinnerClass?: string }>();
+
 const spinner = ref<HTMLElement>();
 
 onMounted(() => {
@@ -23,10 +25,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <svg class="h-7 w-7" viewBox="0 0 24 24">
+  <svg class="h-7 w-7 spinner" viewBox="0 0 24 24">
     <circle
       ref="spinner"
       class="stroke-accent-500"
+      :class="spinnerClass"
       cx="12"
       cy="12"
       r="10"
