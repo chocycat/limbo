@@ -24,6 +24,7 @@
     "@pinia/nuxt": "^0.5.4",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
+    "matrix-js-sdk": "^34.6.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
     "tw-colors": "^3.3.2",
