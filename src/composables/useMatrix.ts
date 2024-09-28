@@ -14,15 +14,43 @@ export const useMatrix = defineStore('matrix', () => {
       },
     ]
   );
-  const homeserver = ref<SavedHomeserver>();
-  const client = ref<MatrixClient>();
+  const homeserver = useLocalStorage<SavedHomeserver>(
+    'matrix/homeserver',
+    null,
+    {
+      serializer: {
+        read(raw) {
+          try {
+            return JSON.parse(raw);
+          } catch {
+            return raw;
+          }
+        },
+        write(value) {
+          return JSON.stringify(value);
+        },
+      },
+    }
+  );
 
-  async function initalizeClient() {
+  // TODO: consider encrypting this
+  const accessToken = useLocalStorage<string>('matrix/token', null);
+
+  const client = ref<MatrixClient>();
+  const loginFlows = ref<sdk.LoginFlow[]>();
+  const status = ref<'idle' | 'connecting' | 'syncing' | 'ready'>('idle');
+
+  async function initializeClient() {
     if (!homeserver.value)
       throw fail('Cannot create client if no homeserver is selected.');
 
+    status.value = 'connecting';
+
     try {
-      client.value = sdk.createClient({ baseUrl: homeserver.value.url });
+      client.value = sdk.createClient({
+        baseUrl: homeserver.value.url,
+        accessToken: accessToken.value,
+      });
     } catch (e) {
       throw fail((e as Error).message);
     }
@@ -37,11 +65,52 @@ export const useMatrix = defineStore('matrix', () => {
       throw fail((e as Error).message);
     }
 
+    if (accessToken.value) {
+      // Try to login and skip manual authentication
+      try {
+        await startClient();
+      } catch {}
+    }
+
     function fail(message: string) {
       homeserver.value = undefined;
       client.value = undefined;
+      status.value = 'idle';
       return new Error(message);
     }
+  }
+
+  async function startClient() {
+    if (!client.value) return;
+
+    await registerGlobalEvents();
+
+    const { user_id: userId } = await client.value.whoami();
+    client.value.credentials.userId = userId;
+
+    status.value = 'syncing';
+    await client.value.startClient();
+  }
+
+  async function registerGlobalEvents() {
+    if (!client.value) return;
+
+    client.value.once(sdk.ClientEvent.Sync, (state) => {
+      if (state === 'PREPARED') {
+        status.value = 'ready';
+      }
+    });
+  }
+
+  async function fetchLoginFlows() {
+    if (!client.value) return;
+    const flows = await client.value.loginFlows();
+
+    if (flows?.flows) {
+      loginFlows.value = flows.flows;
+    }
+
+    return flows.flows;
   }
 
   function setCurrentHomeserver(url: string) {
@@ -62,9 +131,13 @@ export const useMatrix = defineStore('matrix', () => {
 
   return {
     client,
+    accessToken,
     homeserver,
     savedHomeservers,
+    loginFlows,
+    status,
+    fetchLoginFlows,
     setCurrentHomeserver,
-    initalizeClient,
+    initializeClient,
   };
 });

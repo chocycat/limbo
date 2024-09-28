@@ -1,13 +1,8 @@
 <script lang="ts" setup>
 import type { SavedHomeserver } from '~/types/Homeserver';
 
-const {
-  client,
-  homeserver,
-  savedHomeservers,
-  initalizeClient,
-  setCurrentHomeserver,
-} = useMatrix();
+const { client, homeserver, savedHomeservers } = storeToRefs(useMatrix());
+const { initializeClient, fetchLoginFlows, setCurrentHomeserver } = useMatrix();
 
 const connectionError = ref<string | null>();
 const connecting = ref(false);
@@ -18,11 +13,14 @@ async function select(homeserver: SavedHomeserver) {
   connecting.value = true;
 
   try {
-    await initalizeClient();
+    await initializeClient();
+    await fetchLoginFlows();
   } catch (e) {
     connectionError.value = (e as Error).message;
     connecting.value = false;
   }
+
+  navigateTo('/auth/login');
 }
 </script>
 
@@ -38,7 +36,7 @@ async function select(homeserver: SavedHomeserver) {
   </div>
 
   <Alert v-if="connectionError" variant="error">
-    <template #title>Failed Connecting to the Homeserver</template>
+    <template #title>Failed to Connect To Homeserver</template>
     {{ connectionError }}
   </Alert>
 
@@ -75,16 +73,16 @@ async function select(homeserver: SavedHomeserver) {
 
     <Button
       variant="transparent"
-      class="!w-full border-2 border-dashed border-theme-700">
+      class="!w-full border-2 border-dashed border-theme-600">
       Add Homeserver
     </Button>
   </div>
   <div
     v-else-if="connecting"
-    class="flex flex-col items-center justify-center text-center">
+    class="flex flex-col items-center justify-center pb-4 pt-8 text-center">
     <Spinner class="mb-4 h-7 w-7" />
 
-    <h2 class="font-medium">Connecting to the Homeserver...</h2>
-    <p class="text-theme-300">This shouldn't take too long.</p>
+    <h2 class="font-medium">Connecting to {{ homeserver.name }}...</h2>
+    <p class="text-sm text-theme-300">This shouldn't take too long.</p>
   </div>
 </template>

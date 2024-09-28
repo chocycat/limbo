@@ -1,0 +1,48 @@
+<script lang="ts" setup>
+import type { LoginResponse } from 'matrix-js-sdk';
+
+const { loginFlows, accessToken, client } = storeToRefs(useMatrix());
+
+if (!loginFlows.value) {
+  navigateTo('/auth/homeserver');
+}
+
+const loginError = ref<string | null>(null);
+
+const primaryLoginFlow = computed(() => {
+  if (loginFlows.value?.some((x) => x.type === 'm.login.password')) {
+    return 'password';
+  }
+
+  // TODO: SSO login flow
+
+  return 'password';
+});
+
+function onLoginSuccess() {
+  if (!client.value) return;
+  accessToken.value = client.value.getAccessToken();
+}
+</script>
+
+<template>
+  <div class="flex flex-col gap-2">
+    <h1 class="text-2xl font-semibold">Sign In</h1>
+    <p class="text-theme-300">Enter your Matrix ID and password to sign in.</p>
+  </div>
+
+  <Alert v-if="loginError" variant="error">
+    {{ loginError }}
+  </Alert>
+
+  <AuthFlowPasswordLogin
+    v-if="primaryLoginFlow === 'password'"
+    class="mb-4 mt-2"
+    @login-success="onLoginSuccess"
+    @login-fail="(message) => (loginError = message)"
+    @reset-error="loginError = null" />
+
+  <div class="text-center text-sm text-theme-300">
+    Don't have an account? <NuxtLink to="/auth/register">Sign Up</NuxtLink>
+  </div>
+</template>
