@@ -9,6 +9,7 @@ const homeserverInvalid = ref(false);
 
 const url = ref<string>('');
 watch(url, onChange);
+watch(active, () => (url.value = ''));
 
 const debouncedVerify = _.debounce(verify, 750);
 
@@ -19,7 +20,12 @@ function onChange() {
 }
 
 async function verify() {
-  if (!url.value.startsWith('http')) {
+  if (!active.value || !url.value.length) {
+    loading.value = false;
+    return;
+  }
+
+  if (!url.value.startsWith('http') && !!url.value.length) {
     url.value = `https://${url.value}`;
   }
 
