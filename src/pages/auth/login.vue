@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { LoginResponse } from 'matrix-js-sdk';
-
-const { loginFlows, accessToken, client } = storeToRefs(useMatrix());
+const { loginFlows, accessToken, client, homeserver } =
+  storeToRefs(useMatrix());
+const { unsetCurrentHomeserver } = useMatrix();
 
 if (!loginFlows.value) {
   navigateTo('/auth/homeserver');
@@ -23,6 +23,11 @@ function onLoginSuccess() {
   if (!client.value) return;
   accessToken.value = client.value.getAccessToken();
 }
+
+function changeHomeserver() {
+  unsetCurrentHomeserver();
+  navigateTo('/auth/homeserver');
+}
 </script>
 
 <template>
@@ -30,6 +35,17 @@ function onLoginSuccess() {
     <h1 class="text-2xl font-semibold">Sign In</h1>
     <p class="text-theme-300">Enter your Matrix ID and password to sign in.</p>
   </div>
+
+  <span class="inline-flex items-center gap-1 text-theme-200">
+    <Icon icon="dns" />
+
+    <span class="whitespace-pre">
+      Signing in on <span class="font-medium">{{ homeserver.name }}</span
+      >.</span
+    >
+
+    <NuxtLink class="cursor-pointer" @click="changeHomeserver">Change</NuxtLink>
+  </span>
 
   <Alert v-if="loginError" variant="error">
     {{ loginError }}
