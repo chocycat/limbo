@@ -46,7 +46,7 @@ const spinnerClass = computed(() => {
     @click="emit('click', $event)">
     <template v-if="simpleMode">
       <template v-if="loading">
-        <Spinner :spinner-class="spinnerClass" class="h-6 w-6" />
+        <Spinner :spinner-class="spinnerClass" class="!h-6 !w-6" />
       </template>
       <template v-else>
         <Icon v-if="leadingIcon" class="-ml-0.5" :icon="leadingIcon" />
