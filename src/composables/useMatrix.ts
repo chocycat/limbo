@@ -153,6 +153,7 @@ export const useMatrix = defineStore('matrix', () => {
   function unsetCurrentHomeserver() {
     homeserver.value = undefined;
     client.value = undefined;
+    accessToken.value = null;
     status.value = 'idle';
   }
 
