@@ -5,6 +5,7 @@ interface Props extends /* @vue-ignore */ InputHTMLAttributes {
   id: string;
   label?: string;
   icon?: string;
+  error?: string;
 }
 
 defineProps<Props>();
@@ -17,7 +18,10 @@ defineOptions({
 </script>
 
 <template>
-  <div class="input relative flex flex-col gap-1.5" :data-has-icon="!!icon">
+  <div
+    class="input relative flex flex-col gap-1.5"
+    :data-has-icon="!!icon"
+    :data-error="!!error">
     <label v-if="label" :for="id" class="text-sm text-theme-300">{{
       label
     }}</label>
@@ -29,6 +33,11 @@ defineOptions({
         :icon="icon" />
 
       <input :id="id" v-model="model" v-bind="$attrs" />
+    </div>
+
+    <div v-if="error" class="flex items-center gap-1.5 text-sm text-error-500">
+      <Icon icon="error" class="text-[14px]" />
+      {{ error }}
     </div>
   </div>
 </template>
