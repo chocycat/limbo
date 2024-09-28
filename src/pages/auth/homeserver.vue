@@ -40,7 +40,9 @@ async function select(homeserver: SavedHomeserver) {
     {{ connectionError }}
   </Alert>
 
-  <div v-if="!homeserver" class="flex flex-col gap-2">
+  <div
+    v-if="!connecting"
+    class="flex max-h-full min-h-0 flex-col gap-2 overflow-auto">
     <Button
       v-for="homeserver in savedHomeservers"
       class="group !w-full text-left"
@@ -71,14 +73,10 @@ async function select(homeserver: SavedHomeserver) {
       </div>
     </Button>
 
-    <Button
-      variant="transparent"
-      class="!w-full border-2 border-dashed border-theme-600">
-      Add Homeserver
-    </Button>
+    <AuthHomeserverAdd />
   </div>
   <div
-    v-else-if="connecting"
+    v-else
     class="flex flex-col items-center justify-center pb-4 pt-8 text-center">
     <Spinner class="mb-4 h-7 w-7" />
 

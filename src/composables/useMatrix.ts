@@ -73,9 +73,7 @@ export const useMatrix = defineStore('matrix', () => {
     }
 
     function fail(message: string) {
-      homeserver.value = undefined;
-      client.value = undefined;
-      status.value = 'idle';
+      unsetCurrentHomeserver();
       return new Error(message);
     }
   }
@@ -90,6 +88,9 @@ export const useMatrix = defineStore('matrix', () => {
 
     status.value = 'syncing';
     await client.value.startClient();
+
+    // Redirect to the main application
+    navigateTo('/app');
   }
 
   async function registerGlobalEvents() {
@@ -113,6 +114,26 @@ export const useMatrix = defineStore('matrix', () => {
     return flows.flows;
   }
 
+  async function verifyHomeserver(url: string): Promise<boolean> {
+    try {
+      const tempClient = sdk.createClient({ baseUrl: url });
+      const versions = await tempClient.getVersions();
+      if (!versions || !versions.versions.length) return false;
+    } catch {
+      return false;
+    }
+
+    return true;
+  }
+
+  function addHomeserver(url: string, favorite = false) {
+    savedHomeservers.value.push({
+      name: new URL(url).host,
+      url,
+      favorite,
+    });
+  }
+
   function setCurrentHomeserver(url: string) {
     let _homeserver = savedHomeservers.value.find(
       (homeserver) => homeserver.url === url
@@ -129,6 +150,12 @@ export const useMatrix = defineStore('matrix', () => {
     homeserver.value = _homeserver!;
   }
 
+  function unsetCurrentHomeserver() {
+    homeserver.value = undefined;
+    client.value = undefined;
+    status.value = 'idle';
+  }
+
   return {
     client,
     accessToken,
@@ -137,7 +164,10 @@ export const useMatrix = defineStore('matrix', () => {
     loginFlows,
     status,
     fetchLoginFlows,
+    addHomeserver,
     setCurrentHomeserver,
+    unsetCurrentHomeserver,
+    verifyHomeserver,
     initializeClient,
   };
 });
