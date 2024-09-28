@@ -10,8 +10,8 @@ if (homeserver.value) {
   try {
     await initializeClient();
 
-    if (!client.value?.isLoggedIn()) {
-      navigateTo('/auth');
+    if (!client.value?.getAccessToken()) {
+      navigateTo('/auth/login');
     }
   } catch {
     navigateTo('/auth');
