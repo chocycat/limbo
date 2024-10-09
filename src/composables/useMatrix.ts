@@ -86,6 +86,12 @@ export const useMatrix = defineStore('matrix', () => {
     const { user_id: userId } = await client.value.whoami();
     client.value.credentials.userId = userId;
 
+    try {
+      await client.value.initRustCrypto();
+    } catch (e) {
+      console.error('Failed to init crypto:', e);
+    }
+
     status.value = 'syncing';
     await client.value.startClient();
 
