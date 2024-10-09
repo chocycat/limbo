@@ -178,3 +178,6 @@ export const useMatrix = defineStore('matrix', () => {
     initializeClient,
   };
 });
+
+export * from './matrix/room';
+export * from './matrix/user';

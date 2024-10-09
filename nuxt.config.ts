@@ -59,6 +59,11 @@ const config = defineNuxtConfig({
   devtools: { enabled: true },
 });
 
+if (TARGET === 'web' || useElectron) {
+  config.ignore ||= [];
+  config.ignore.push('pages/app/chat.vue');
+}
+
 if (useElectron) {
   (config as any).electron = {
     build: [
