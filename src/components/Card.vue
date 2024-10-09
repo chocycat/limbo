@@ -12,7 +12,7 @@ const slots = useSlots();
       'group cursor-pointer select-none hover:bg-theme-800': clickable,
     }"
     @click="emit('click', $event)">
-    <div class="flex flex-col gap-2 p-4">
+    <div class="flex h-full w-full flex-col gap-2 p-4">
       <slot />
     </div>
 
