@@ -23,7 +23,7 @@ const failed = ref<boolean>(false);
 </script>
 
 <template>
-  <SpaceLinkBase
+  <SpaceTileBase
     :class="{ active: currentSpace === space.roomId }"
     :style="{ '--size': `${size}px` }"
     @click="currentSpace = space.roomId">
@@ -34,7 +34,7 @@ const failed = ref<boolean>(false);
     <template v-else>
       <span class="text-lg font-medium">{{ mnemonic }}</span>
     </template>
-  </SpaceLinkBase>
+  </SpaceTileBase>
 </template>
 
 <style lang="scss" scoped>

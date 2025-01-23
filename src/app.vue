@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+const { homeserver, client } = storeToRefs(useMatrix());
+const { initializeClient } = useMatrix();
+
 // Initialize the current theme
 useTheme();
 
 // Try to initialize Matrix
-const { homeserver, client } = storeToRefs(useMatrix());
-const { initializeClient } = useMatrix();
-
 if (homeserver.value) {
   try {
     await initializeClient();

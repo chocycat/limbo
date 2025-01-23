@@ -7,21 +7,21 @@ const spaces = client.value!.getRooms().filter((x) => x.isSpaceRoom());
 
 <template>
   <div class="flex flex-col gap-2">
-    <SpaceLinkBase
+    <SpaceTileBase
       :class="{ active: currentSpace === 'direct' }"
       @click="currentSpace = 'direct'">
       <Icon class="mt-[3px] text-[24px]" icon="forum" />
-    </SpaceLinkBase>
+    </SpaceTileBase>
 
     <div class="mx-auto h-[1px] w-[25%] bg-theme-800" />
 
     <!-- TODO: tooltips -->
-    <SpaceLink v-for="space in spaces" :space="space" class="cursor-pointer" />
+    <SpaceTile v-for="space in spaces" :space="space" class="cursor-pointer" />
 
     <div class="mx-auto h-[1px] w-[25%] bg-theme-800" />
 
-    <SpaceLinkBase class="cursor-pointer">
+    <SpaceTileBase class="cursor-pointer">
       <Icon class="text-[24px]" icon="add" />
-    </SpaceLinkBase>
+    </SpaceTileBase>
   </div>
 </template>

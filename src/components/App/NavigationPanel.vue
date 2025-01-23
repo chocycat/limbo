@@ -8,7 +8,7 @@ const { client } = storeToRefs(useMatrix());
       class="pickerRoot h-full w-full rounded-b-none bg-theme-900/50 sm:rounded-b-2xl">
       <div class="flex h-full">
         <div class="p-3">
-          <SpacePicker />
+          <SpaceTiles />
         </div>
 
         <Card
