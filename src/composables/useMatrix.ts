@@ -35,6 +35,7 @@ export const useMatrix = defineStore('matrix', () => {
 
   // TODO: consider encrypting this
   const accessToken = useLocalStorage<string>('matrix/token', null);
+  const deviceId = useLocalStorage<string>('matrix/deviceId', crypto.randomUUID())
 
   const client = ref<MatrixClient>();
   const loginFlows = ref<sdk.LoginFlow[]>();
@@ -50,6 +51,7 @@ export const useMatrix = defineStore('matrix', () => {
       client.value = sdk.createClient({
         baseUrl: homeserver.value.url,
         accessToken: accessToken.value,
+        deviceId: deviceId.value,
       });
     } catch (e) {
       throw fail((e as Error).message);
@@ -69,7 +71,7 @@ export const useMatrix = defineStore('matrix', () => {
       // Try to login and skip manual authentication
       try {
         await startClient();
-      } catch {}
+      } catch { }
     }
 
     function fail(message: string) {
