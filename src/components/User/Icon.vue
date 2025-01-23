@@ -1,27 +1,23 @@
 <script lang="ts" setup>
-import { RoomMember, User } from 'matrix-js-sdk';
+import { RoomMember } from 'matrix-js-sdk';
 
 const { client } = storeToRefs(useMatrix());
 
-const { user } = defineProps<{ user?: RoomMember }>();
+const { user, size } = withDefaults(defineProps<{ user: RoomMember, size?: number }>(), { size: 24 });
 
 const avatarUrl = computed(() => {
-  if (!client.value) return null;
-  return user?.getAvatarUrl(
-    client.value.getHomeserverUrl(),
-    128,
-    128,
-    'crop',
-    false,
-    false
-  );
+  const url = user?.getMxcAvatarUrl();
+  if (!client.value || !url) return null;
+
+  const s = Math.floor(size * window.devicePixelRatio);
+  return client.value.mxcUrlToHttp(url, s, s, 'crop', undefined, false, false);
 });
 </script>
 
 <!-- TODO: remove pengui.png after I make some default avatars -->
 
 <template>
-  <div class="h-6 w-6 overflow-hidden rounded-full object-cover">
-    <img class="h-full w-full" :src="avatarUrl || '/img/pengui.png'" />
+  <div class="overflow-hidden rounded-full object-cover" :style="{ width: size, height: size }">
+    <img class="h-full w-full" :src="avatarUrl || '/img/pengui.png'" crossorigin="anonymous" />
   </div>
 </template>

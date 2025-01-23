@@ -13,12 +13,14 @@ const config = defineNuxtConfig({
     },
   },
 
+  plugins: ['~/plugins/service-worker.client.ts'],
   modules: [
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/stylelint-module',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
+    'nuxt3-service-worker',
     ...(useElectron ? ['nuxt-electron'] : []),
     [
       '@nuxtjs/google-fonts',
@@ -53,6 +55,10 @@ const config = defineNuxtConfig({
         global: 'window',
       },
     },
+  },
+
+  serviceWorker: {
+    entryPoint: 'src/service-worker.ts'
   },
 
   compatibilityDate: '2024-04-03',
