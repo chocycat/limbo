@@ -13,7 +13,9 @@ const config = defineNuxtConfig({
     },
   },
 
-  plugins: ['~/plugins/service-worker.client.ts'],
+  plugins: [
+    '~/plugins/polyfill.client.ts',
+  ],
   modules: [
     '@vueuse/nuxt',
     '@pinia/nuxt',
