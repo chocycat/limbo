@@ -23,6 +23,7 @@ if (homeserver.value) {
 
 <template>
   <main>
-    <NuxtPage />
+
+    <ModalManager />
   </main>
 </template>
