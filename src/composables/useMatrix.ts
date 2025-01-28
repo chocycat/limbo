@@ -197,6 +197,7 @@ export const useMatrix = defineStore('matrix', () => {
   return {
     client,
     accessToken,
+    deviceId,
     homeserver,
     savedHomeservers,
     loginFlows,
