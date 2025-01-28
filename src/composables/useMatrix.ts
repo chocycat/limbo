@@ -48,10 +48,19 @@ export const useMatrix = defineStore('matrix', () => {
     status.value = 'connecting';
 
     try {
+      indexedDB.value = new sdk.IndexedDBStore({
+        dbName: 'sync-store',
+        indexedDB: global.indexedDB,
+        localStorage: global.localStorage,
+      });
+
       client.value = sdk.createClient({
         baseUrl: homeserver.value.url,
-        accessToken: accessToken.value,
-        deviceId: deviceId.value,
+        cryptoStore: new sdk.IndexedDBCryptoStore(
+          global.indexedDB,
+          'crypto-store'
+        ),
+        store: indexedDB.value,
       });
     } catch (e) {
       throw fail((e as Error).message);
