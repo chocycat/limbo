@@ -35,6 +35,7 @@ export const useMatrix = defineStore('matrix', () => {
 
   // TODO: consider encrypting this
   const accessToken = useLocalStorage<string>('matrix/token', null);
+  const deviceId = useLocalStorage<string>('matrix/deviceId', null);
 
   const indexedDB = ref<sdk.IndexedDBStore>();
   const client = ref<MatrixClient>();
