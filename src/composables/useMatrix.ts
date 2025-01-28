@@ -41,6 +41,11 @@ export const useMatrix = defineStore('matrix', () => {
   const loginFlows = ref<sdk.LoginFlow[]>();
   const status = ref<'idle' | 'connecting' | 'syncing' | 'ready'>('idle');
 
+  async function initMatrix() {
+    await initializeClient();
+    await fetchLoginFlows();
+  }
+
   async function initializeClient() {
     if (!homeserver.value)
       throw fail('Cannot create client if no homeserver is selected.');
@@ -202,6 +207,7 @@ export const useMatrix = defineStore('matrix', () => {
     savedHomeservers,
     loginFlows,
     status,
+    initMatrix,
     fetchLoginFlows,
     addHomeserver,
     setCurrentHomeserver,
