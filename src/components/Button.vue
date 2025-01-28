@@ -60,7 +60,7 @@ const spinnerClass = computed(() => {
 
 <style lang="scss" scoped>
 button {
-  @apply flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-lg font-semibold transition ease-standard;
+  @apply flex w-fit cursor-pointer items-center justify-center gap-1.5 rounded-xl font-semibold transition ease-standard;
 
   &:active {
     @apply scale-95;

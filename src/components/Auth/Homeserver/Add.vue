@@ -57,7 +57,7 @@ function add() {
       Add Homeserver
     </Button>
 
-    <Card v-else class="rounded-lg border-2 border-theme-600">
+    <Card v-else class="rounded-xl border-2 border-theme-600">
       <div class="flex items-center justify-between">
         <span class="font-semibold">Add Homeserver</span>
 

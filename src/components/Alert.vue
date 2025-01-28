@@ -43,7 +43,7 @@ const icon = computed(() => {
 
 <style lang="scss" scoped>
 .alert {
-  @apply flex items-start gap-3.5 rounded-lg p-4;
+  @apply flex items-start gap-3.5 rounded-xl p-4;
 
   /// Variants
 
