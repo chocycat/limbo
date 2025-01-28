@@ -220,3 +220,4 @@ export const useMatrix = defineStore('matrix', () => {
 
 export * from './matrix/room';
 export * from './matrix/user';
+export * from './matrix/event';
