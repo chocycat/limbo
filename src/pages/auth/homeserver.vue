@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { SavedHomeserver } from '~/types/Homeserver';
 
-const { client, homeserver, savedHomeservers } = storeToRefs(useMatrix());
-const { initializeClient, fetchLoginFlows, setCurrentHomeserver } = useMatrix();
+const { homeserver, savedHomeservers } = storeToRefs(useMatrix());
+const { initMatrix, setCurrentHomeserver } = useMatrix();
 
 const connectionError = ref<string | null>();
 const connecting = ref(false);
@@ -13,8 +13,7 @@ async function select(homeserver: SavedHomeserver) {
   connecting.value = true;
 
   try {
-    await initializeClient();
-    await fetchLoginFlows();
+    await initMatrix();
   } catch (e) {
     connectionError.value = (e as Error).message;
     connecting.value = false;
@@ -22,6 +21,10 @@ async function select(homeserver: SavedHomeserver) {
 
   navigateTo('/auth/login');
 }
+
+definePageMeta({
+  middleware: ['unauth'],
+});
 </script>
 
 <template>

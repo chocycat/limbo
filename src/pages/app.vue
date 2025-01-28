@@ -11,6 +11,10 @@ const layout = computed(() => {
       return 'mobile-app';
   }
 });
+
+definePageMeta({
+  middleware: ['auth'],
+});
 </script>
 
 <template>

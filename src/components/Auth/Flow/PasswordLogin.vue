@@ -7,7 +7,7 @@ const emit = defineEmits<{
   (e: 'reset-error'): void;
 }>();
 
-const { client } = storeToRefs(useMatrix());
+const { client, accessToken, deviceId, status } = storeToRefs(useMatrix());
 
 const id = ref<string>('');
 const password = ref<string>('');
@@ -15,19 +15,43 @@ const loading = ref<boolean>(false);
 
 watch([id, password], () => emit('reset-error'));
 
+watch(status, () => {
+  // Set loading to false after syncing
+  // When we initially sign in, we enable loading,
+  // so this will provide a smooth loading indicator.
+  if (status.value === 'ready') loading.value = false;
+});
+
 async function login() {
   if (!client.value) return;
 
   loading.value = true;
 
   try {
-    const response = await client.value.loginWithPassword(
-      id.value,
-      password.value
-    );
+    const response = await client.value.login('m.login.password', {
+      identifier: {
+        type: 'm.id.user',
+        user: id.value,
+      },
+      password: password.value,
+      initial_device_display_name: 'limbo.chat',
+    });
+
+    // set the accesstoken
+    if (!accessToken.value?.length) {
+      accessToken.value = response.access_token;
+    }
+
+    // set device ID
+    if (!deviceId.value?.length) {
+      deviceId.value = response.device_id;
+      client.value.deviceId = deviceId.value;
+    }
 
     emit('login-success', response);
   } catch (e) {
+    loading.value = false;
+
     let message = (e as Error).name;
     if (message === 'M_FORBIDDEN')
       message = 'The entered credentials are invalid.';
@@ -37,8 +61,6 @@ async function login() {
 
     emit('login-fail', message);
   }
-
-  loading.value = false;
 }
 </script>
 

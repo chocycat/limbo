@@ -1,8 +1,14 @@
 import type { MatrixClient } from 'matrix-js-sdk';
 import type { SavedHomeserver } from '~/types/Homeserver';
 import * as sdk from 'matrix-js-sdk';
+import { deriveRecoveryKeyFromPassphrase } from 'matrix-js-sdk/lib/crypto-api';
+import { VerificationMethod } from 'matrix-js-sdk/lib/types';
+import AuthVerificationPassphrase from '~/components/Auth/Verification/Passphrase.vue';
 
 export const useMatrix = defineStore('matrix', () => {
+  const { openModal } = useModal();
+  const { secretStorageKeyBindings } = storeToRefs(useInterface());
+
   const savedHomeservers = useLocalStorage<Array<SavedHomeserver>>(
     'matrix/homeservers',
     [
@@ -37,16 +43,39 @@ export const useMatrix = defineStore('matrix', () => {
   const accessToken = useLocalStorage<string>('matrix/token', null);
   const deviceId = useLocalStorage<string>('matrix/deviceId', null);
 
+  /** Whether the user skipped verification for this device */
+  const skippedVerification = useLocalStorage<boolean>(
+    'matrix/skippedVerification',
+    false
+  );
+
   const indexedDB = ref<sdk.IndexedDBStore>();
   const client = ref<MatrixClient>();
+
   const loginFlows = ref<sdk.LoginFlow[]>();
   const status = ref<'idle' | 'connecting' | 'syncing' | 'ready'>('idle');
 
+  /** Cache keys so the user won't be asked to enter it each and every time */
+  const secretStorageKeyCache = ref<
+    Record<
+      string,
+      { key: Uint8Array; info: sdk.SecretStorage.SecretStorageKeyDescription }
+    >
+  >({});
+
+  /**
+   * Initializes the client and other information.
+   *
+   * This should be called *before* the user signed in.
+   */
   async function initMatrix() {
     await initializeClient();
     await fetchLoginFlows();
   }
 
+  /**
+   * Initializes the Matrix client.
+   */
   async function initializeClient() {
     if (!homeserver.value)
       throw fail('Cannot create client if no homeserver is selected.');
@@ -71,6 +100,85 @@ export const useMatrix = defineStore('matrix', () => {
           'crypto-store'
         ),
         store: indexedDB.value,
+        cryptoCallbacks: {
+          getSecretStorageKey: async ({ keys }) => {
+            return new Promise(async (resolve, reject) => {
+              if (!client.value) {
+                reject(
+                  new Error(
+                    'No Matrix client found when resolving secret storage key.'
+                  )
+                );
+                return;
+              }
+
+              let keyId = await client.value!.secretStorage.getDefaultKeyId();
+              let keyInfo!: sdk.SecretStorage.SecretStorageKeyDescription;
+
+              if (keyId) {
+                keyInfo = keys[keyId];
+                if (!keyInfo) keyId = null;
+              }
+
+              if (!keyId) {
+                const keyInfoEntries = Object.entries(keys);
+                if (keyInfoEntries.length > 1) {
+                  throw new Error(
+                    'Multiple storage key requests not implemented'
+                  );
+                }
+                [keyId, keyInfo] = keyInfoEntries[0];
+              }
+
+              // publish props
+              if (!secretStorageKeyBindings.value.props) {
+                secretStorageKeyBindings.value.props = {
+                  verify: async (phrase) => {
+                    return client.value!.secretStorage.checkKey(
+                      await deriveKey(phrase),
+                      keyInfo
+                    );
+                  },
+                  onSubmit: async (phrase) => {
+                    const key = await deriveKey(phrase);
+                    secretStorageKeyCache.value[keyId] = { info: keyInfo, key };
+
+                    resolve([keyId, key]);
+                    secretStorageKeyBindings.value.accepting = false;
+                  },
+                };
+              }
+
+              const deriveKey = async (phrase: string) =>
+                deriveRecoveryKeyFromPassphrase(
+                  phrase,
+                  keyInfo.passphrase.salt,
+                  keyInfo.passphrase.iterations
+                );
+
+              const cached = secretStorageKeyCache.value[keyId];
+              if (cached) {
+                resolve([keyId, cached.key]);
+                return;
+              }
+
+              if (secretStorageKeyBindings.value.bound) {
+                // use the UI bindings and wait for a response
+                secretStorageKeyBindings.value.accepting = true;
+              } else {
+                // open a modal
+                openModal({
+                  component: AuthVerificationPassphrase,
+                  props: secretStorageKeyBindings.value.props,
+                  closable: false,
+                });
+              }
+            });
+          },
+          cacheSecretStorageKey(keyId, keyInfo, key) {
+            secretStorageKeyCache.value[keyId] = { info: keyInfo, key };
+          },
+        },
       });
     } catch (e) {
       throw fail((e as Error).message);
@@ -124,9 +232,12 @@ export const useMatrix = defineStore('matrix', () => {
   async function registerGlobalEvents() {
     if (!client.value) return;
 
-    client.value.once(sdk.ClientEvent.Sync, (state) => {
+    client.value.once(sdk.ClientEvent.Sync, async (state) => {
       if (state === 'PREPARED') {
         status.value = 'ready';
+
+        if (!(await isVerified())) navigateTo('/auth/verification');
+        else navigateTo('/app');
       }
     });
   }
@@ -208,7 +319,9 @@ export const useMatrix = defineStore('matrix', () => {
     savedHomeservers,
     loginFlows,
     status,
+    skippedVerification,
     initMatrix,
+    startClient,
     fetchLoginFlows,
     addHomeserver,
     setCurrentHomeserver,

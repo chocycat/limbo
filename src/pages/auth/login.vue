@@ -1,11 +1,6 @@
 <script lang="ts" setup>
-const { loginFlows, accessToken, client, homeserver } =
-  storeToRefs(useMatrix());
-const { unsetCurrentHomeserver } = useMatrix();
-
-if (!loginFlows.value) {
-  navigateTo('/auth/homeserver');
-}
+const { loginFlows, client, homeserver } = storeToRefs(useMatrix());
+const { startClient, unsetCurrentHomeserver } = useMatrix();
 
 const loginError = ref<string | null>(null);
 
@@ -19,15 +14,19 @@ const primaryLoginFlow = computed(() => {
   return 'password';
 });
 
-function onLoginSuccess() {
+async function onLoginSuccess() {
   if (!client.value) return;
-  accessToken.value = client.value.getAccessToken();
+  await startClient();
 }
 
 function changeHomeserver() {
   unsetCurrentHomeserver();
   navigateTo('/auth/homeserver');
 }
+
+definePageMeta({
+  middleware: ['unauth'],
+});
 </script>
 
 <template>
