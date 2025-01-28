@@ -14,6 +14,7 @@ const config = defineNuxtConfig({
   },
 
   plugins: [
+    '~/plugins/service-worker.client.ts',
     '~/plugins/polyfill.client.ts',
   ],
   modules: [
@@ -60,7 +61,7 @@ const config = defineNuxtConfig({
   },
 
   serviceWorker: {
-    entryPoint: 'src/service-worker.ts'
+    entryPoint: 'src/service-worker.ts',
   },
 
   compatibilityDate: '2024-04-03',
