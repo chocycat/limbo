@@ -84,7 +84,9 @@ export const useMatrix = defineStore('matrix', () => {
       // Try to login and skip manual authentication
       try {
         await startClient();
-      } catch { }
+      } catch {}
+    } else {
+      status.value = 'idle';
     }
 
     function fail(message: string) {
