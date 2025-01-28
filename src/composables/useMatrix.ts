@@ -148,6 +148,21 @@ export const useMatrix = defineStore('matrix', () => {
     return true;
   }
 
+  /** Returns whether the current device is verified. */
+  async function isVerified() {
+    if (!client.value) return false;
+
+    const crypto = client.value.getCrypto();
+    if (!crypto) return false;
+
+    const verificationStatus = await crypto.getDeviceVerificationStatus(
+      client.value.getUserId()!,
+      deviceId.value
+    );
+
+    return verificationStatus?.crossSigningVerified || false;
+  }
+
   function addHomeserver(url: string, favorite = false) {
     savedHomeservers.value.push({
       name: new URL(url).host,
@@ -192,6 +207,7 @@ export const useMatrix = defineStore('matrix', () => {
     unsetCurrentHomeserver,
     verifyHomeserver,
     initializeClient,
+    isVerified,
   };
 });
 
