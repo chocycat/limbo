@@ -105,5 +105,3 @@ function getRequestHeaders(accessToken?: string) {
     ? { headers: { Authorization: `Bearer ${accessToken}` } }
     : undefined;
 }
-
-export default null;
