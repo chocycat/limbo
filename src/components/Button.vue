@@ -3,7 +3,7 @@ const emit = defineEmits<{ (e: 'click', event: MouseEvent): void }>();
 
 const props = withDefaults(
   defineProps<{
-    variant?: 'transparent' | 'theme' | 'accent' | 'error' | 'warning';
+    variant?: 'link' | 'transparent' | 'theme' | 'accent' | 'error' | 'warning';
     size?: 'small' | 'base' | 'large';
     text?: string;
     icon?: string | { leading?: string; trailing?: string };
@@ -74,6 +74,12 @@ button {
   }
 
   /// Variants
+
+  &[data-variant='link'] {
+    @apply bg-transparent text-theme-300 hover:text-theme-50;
+
+    padding: 0 !important;
+  }
 
   &[data-variant='transparent'] {
     @apply bg-transparent text-theme-200 hover:bg-theme-600 hover:text-theme-50;
