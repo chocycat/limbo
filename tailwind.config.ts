@@ -58,6 +58,11 @@ export default <Partial<Config>>{
           '500': '#E0DE8F',
           '600': '#D4D163',
         },
+        success: {
+          '400': '#AFE9BA',
+          '500': '#8FE09E',
+          '600': '#63D478',
+        },
         theme: {
           '50': '#f6f6f9',
           '100': '#ececf2',
