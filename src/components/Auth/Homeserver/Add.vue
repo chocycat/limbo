@@ -81,7 +81,7 @@ function add() {
         text="Add"
         class="!w-full"
         :loading="loading"
-        :disabled="loading || homeserverInvalid || !url.length"
+        :disabled="homeserverInvalid || !url.length"
         @click="add" />
     </Card>
   </div>

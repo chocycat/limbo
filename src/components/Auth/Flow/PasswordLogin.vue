@@ -65,7 +65,7 @@ async function login() {
       variant="accent"
       class="!w-full"
       :loading="loading"
-      :disabled="!id.length || !password.length || loading"
+      :disabled="!id.length || !password.length"
       @click="login"
       >Sign In</Button
     >

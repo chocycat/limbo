@@ -29,7 +29,8 @@ const spinnerClass = computed(() => {
   // TODO: refactor this, this is quite unconventional
   if (
     ['accent', 'error', 'warning'].includes(props.variant) &&
-    !disabled.value
+    !disabled.value &&
+    !loading.value
   ) {
     return 'stroke-theme-950';
   } else {
@@ -42,7 +43,8 @@ const spinnerClass = computed(() => {
   <button
     :data-size="size"
     :data-variant="variant"
-    :disabled="disabled"
+    :data-loading="loading"
+    :disabled="disabled || loading"
     @click="emit('click', $event)">
     <template v-if="simpleMode">
       <template v-if="loading">
