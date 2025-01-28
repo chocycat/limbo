@@ -56,6 +56,7 @@ export const useMatrix = defineStore('matrix', () => {
 
       client.value = sdk.createClient({
         baseUrl: homeserver.value.url,
+        timelineSupport: true,
         cryptoStore: new sdk.IndexedDBCryptoStore(
           global.indexedDB,
           'crypto-store'
