@@ -111,11 +111,8 @@ export const useMatrix = defineStore('matrix', () => {
       console.error('Failed to init crypto:', e);
     }
 
-    status.value = 'syncing';
+    await indexedDB.value!.startup();
     await client.value.startClient();
-
-    // Redirect to the main application
-    navigateTo('/app');
   }
 
   async function registerGlobalEvents() {
