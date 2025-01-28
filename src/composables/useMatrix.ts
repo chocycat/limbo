@@ -56,6 +56,8 @@ export const useMatrix = defineStore('matrix', () => {
 
       client.value = sdk.createClient({
         baseUrl: homeserver.value.url,
+        accessToken: accessToken.value || undefined,
+        deviceId: deviceId.value || undefined,
         verificationMethods: [VerificationMethod.Sas],
         timelineSupport: true,
         cryptoStore: new sdk.IndexedDBCryptoStore(
