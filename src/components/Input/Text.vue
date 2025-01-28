@@ -48,7 +48,7 @@ defineOptions({
 .input {
   &[data-has-icon='true'] {
     input {
-      @apply indent-[30px];
+      @apply pl-11;
     }
   }
 }
