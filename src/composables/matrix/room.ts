@@ -16,6 +16,10 @@ export function useMatrixRoom() {
       return RoomType.Channel;
     }
 
+    if (room.getCanonicalAlias()) {
+      return RoomType.Public;
+    }
+
     return RoomType.Group;
   }
 
@@ -30,5 +34,13 @@ export function useMatrixRoom() {
     return false;
   }
 
-  return { getRoomType, isRoomDM };
+  /** Checks if the current user is the only one inside of the room */
+  function isRoomPersonal(room: Room): boolean {
+    const members = room.getMembers();
+    return (
+      members.length === 1 && members[0].userId === client.value?.getUserId()
+    );
+  }
+
+  return { getRoomType, isRoomDM, isRoomPersonal };
 }
