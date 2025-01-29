@@ -24,8 +24,6 @@ onMounted(async () => {
   if (!event) return null;
 
   await client.value!.decryptEventIfNeeded(event);
-  console.log(event);
-
   latestMessage.value = { sender: event.sender!, content: event.getContent() };
 });
 </script>
@@ -37,7 +35,7 @@ onMounted(async () => {
     <div class="flex items-center gap-3">
       <UserIcon :user="participant" :size="32" />
 
-      <div class="flex flex-col items-start gap-1">
+      <div class="flex flex-col items-start gap-1 text-left">
         <span class="font-medium">
           {{ room.name }}
         </span>

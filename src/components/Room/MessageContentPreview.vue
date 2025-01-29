@@ -13,14 +13,15 @@ defineProps<{ room: Room; sender: RoomMember; content: IContent }>();
 </script>
 
 <template>
-  <span class="line-clamp-1 text-sm font-normal text-theme-300">
-    <span v-if="!isRoomDM(room)" class="text-accent-500"
+  <p class="line-clamp-1 text-sm font-normal text-theme-300">
+    <span
+      v-if="!isRoomDM(room) && room.getInvitedAndJoinedMemberCount() > 2"
+      class="text-accent-500"
       >{{ sender.rawDisplayName }}:
     </span>
 
-    <template v-if="content.msgtype === MsgType.Text">{{
-      (content as IMessageRendering).body
-    }}</template>
+    {{ (content as IMessageRendering).body }}
+
     <!-- TODO: rest of the message types -->
-  </span>
+  </p>
 </template>
