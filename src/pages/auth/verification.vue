@@ -60,5 +60,7 @@ definePageMeta({
 </script>
 
 <template>
-  <NuxtPage @skip="trySkip" @proceed="proceed" />
+  <div class="flex flex-col gap-4">
+    <NuxtPage @skip="trySkip" @proceed="proceed" />
+  </div>
 </template>
