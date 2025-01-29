@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import './gsap';
+
 const { homeserver, client } = storeToRefs(useMatrix());
 const { initMatrix } = useMatrix();
 
