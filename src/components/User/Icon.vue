@@ -3,7 +3,10 @@ import { RoomMember } from 'matrix-js-sdk';
 
 const { client } = storeToRefs(useMatrix());
 
-const { user, size } = withDefaults(defineProps<{ user: RoomMember, size?: number }>(), { size: 24 });
+const { user, size } = withDefaults(
+  defineProps<{ user?: RoomMember; size?: number }>(),
+  { user: undefined, size: 24 }
+);
 
 const avatarUrl = computed(() => {
   const url = user?.getMxcAvatarUrl();
@@ -17,7 +20,17 @@ const avatarUrl = computed(() => {
 <!-- TODO: remove pengui.png after I make some default avatars -->
 
 <template>
-  <div class="overflow-hidden rounded-full object-cover" :style="{ width: size, height: size }">
-    <img class="h-full w-full" :src="avatarUrl || '/img/pengui.png'" crossorigin="anonymous" />
+  <div
+    class="overflow-hidden rounded-full object-cover"
+    :style="{
+      minWidth: size + 'px',
+      minHeight: size + 'px',
+      maxWidth: size + 'px',
+      maxHeight: size + 'px',
+    }">
+    <img
+      class="h-full w-full"
+      :src="avatarUrl || '/img/pengui.png'"
+      crossorigin="anonymous" />
   </div>
 </template>

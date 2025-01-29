@@ -32,7 +32,7 @@ const latestMessage = computed(async () => {
     class="!w-full !justify-start !p-2 hover:!bg-theme-700"
     variant="transparent">
     <div class="flex items-center gap-3">
-      <UserIcon :user="participant" class="h-7 w-7" />
+      <UserIcon :user="participant" :size="32" />
 
       <div class="flex flex-col gap-1">
         <span class="font-medium">
