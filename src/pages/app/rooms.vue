@@ -11,7 +11,7 @@ const layout = computed(() => {
 });
 
 definePageMeta({
-  redirect: '/app/rooms/direct',
+  redirect: '/app/rooms/home',
 });
 </script>
 

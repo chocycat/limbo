@@ -54,5 +54,6 @@ definePageMeta({
     <NuxtPage v-if="!initializing" />
 
     <ModalManager />
+    <Masks />
   </main>
 </template>

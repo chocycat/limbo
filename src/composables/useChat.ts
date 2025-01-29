@@ -1,9 +1,19 @@
-import type { Room } from "matrix-js-sdk";
-
 export const useChat = defineStore('chat', () => {
-  const currentRoom = ref<Room | null>(null);
-  const currentSpace = ref<string | 'direct'>('direct');
+  const { push } = useStackNavigation();
+  const { onMobile } = usePlatform();
+
+  const currentRoom = ref<string | null>(null);
+  const currentSpace = ref<string | 'home'>('home');
   const route = toRefs(useRoute());
+
+  function setActiveChat(roomId: string) {
+    currentRoom.value = roomId;
+
+    onMobile(() => {
+      push('/app/chat');
+      navigateTo('/app/chat');
+    });
+  }
 
   watch(currentSpace, () => {
     if (route.name.value?.toString().startsWith('app-rooms')) {
@@ -12,5 +22,5 @@ export const useChat = defineStore('chat', () => {
     }
   });
 
-  return { currentRoom, currentSpace };
+  return { currentRoom, currentSpace, setActiveChat };
 });

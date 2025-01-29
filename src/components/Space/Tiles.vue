@@ -8,9 +8,9 @@ const spaces = client.value!.getRooms().filter((x) => x.isSpaceRoom());
 <template>
   <div class="flex flex-col gap-2">
     <SpaceTileBase
-      :class="{ active: currentSpace === 'direct' }"
-      @click="currentSpace = 'direct'">
-      <Icon class="mt-[3px] text-[24px]" icon="forum" />
+      :class="{ active: currentSpace === 'home' }"
+      @click="currentSpace = 'home'">
+      <Icon class="text-[24px]" icon="home" />
     </SpaceTileBase>
 
     <div class="mx-auto h-[1px] w-[25%] bg-theme-800" />
